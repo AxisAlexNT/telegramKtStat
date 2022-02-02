@@ -17,6 +17,7 @@ def getMessages():
     for dialog in client.iter_dialogs():
         if dialog.id in flud_dialogs or dialog.id in study_dialogs:
             print(dialog.title, dialog.id)
+            # continue
             for message in client.iter_messages(dialog.title):
                 if not hasattr(message.from_id, 'user_id'):
                     continue
