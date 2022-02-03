@@ -3,8 +3,6 @@ import json
 
 from telethon import TelegramClient, sync
 
-from KTfan import KTfan
-
 api_id = 18442708
 api_hash = '72cf2c0dfa15679f1a96e3fab43728a5'
 flud_dialogs = [-1001083494173, -1001358584131, -1001186169699, -1001566274537]
