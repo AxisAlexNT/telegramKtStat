@@ -4,9 +4,9 @@ from collections import Counter
 import numpy as np
 from matplotlib import pyplot as plt
 
-flud_dialogs = ["-1001083494173", "-1001358584131", "-1001186169699", "-1001566274537"]
-study_dialogs = ["-1001509453723", "-1001595810251", "-1001487603470", "-1001419469399", "-1001551100526", "-1001592102255",
-                 "-1001695358795"]
+flud_3839_dialogs = ["1001083494173", "1001358584131", "1001186169699", "1001566274537"]
+study_3839_dialogs = ["1001509453723", "1001595810251", "1001487603470", "1001419469399",
+                 "1001551100526", "1001592102255", "1001695358795"]
 
 
 def get_personal_stat(mode: str, chat_id: str, most_common: int):
@@ -48,9 +48,12 @@ def get_group_stat(mode: str, chat_id: str):
     print(count_group)
     labels = sorted(list(count_group.keys()))
     values = [count_group[labels[i]] for i in range(len(labels))]
+    position = np.arange(len(labels))
     fig, ax = plt.subplots()
-    ax.bar_label(ax.bar(labels, values, 0.35))
-    ax.set_ylabel(mode + 'messages')
+    ax.bar_label(ax.barh(position, values))
+    ax.set_yticks(position)
+    ax.set_yticklabels(labels)
+    ax.set_xlabel(mode + 'messages')
     ax.set_title("Group stat at " + chat_id)
     plt.show()
 
@@ -91,7 +94,8 @@ def get_avg_msg_stat(mode: str, chat_ids: list, groups: list):
     ax.scatter(msg_with_scholarship, avg_with_scholarship, color='g')
     ax.scatter(msg_without_scholarship, avg_without_scholarship, color='y')
     ax.scatter(msg_with_fx, avg_with_fx, color='r')
-    ax.set_title(str(groups) + " in " + "all_kt_dialogs")
+    print(len(msg_with_fx) + len(msg_with_scholarship) + len(msg_without_scholarship))
+    ax.set_title(str(groups) + " in " + "dialogs")
     ax.set_ylabel("Average score")
     ax.set_xlabel(mode + " messages")
     ax.set_xscale('log')
@@ -100,7 +104,7 @@ def get_avg_msg_stat(mode: str, chat_ids: list, groups: list):
 
 
 if __name__ == "__main__":
-    # get_group_stat("length", "-1001566274537")
+    get_group_stat("count", "1001186169699")
     # get_personal_stat("length", "-1001566274537", 20)
     # get_personal_stat("count", "-1001566274537", 20)
-    get_avg_msg_stat("length", study_dialogs + flud_dialogs, ["M3138", "M3139"])
+    # get_avg_msg_stat("length", study_dialogs + flud_dialogs, ["M3138", "M3139"])
