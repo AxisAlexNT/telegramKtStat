@@ -91,5 +91,5 @@ def getNames():
 
 
 if __name__ == '__main__':
-    getMessages()
+    #getMessages()
     getNames()
