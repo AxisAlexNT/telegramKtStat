@@ -105,6 +105,6 @@ def get_avg_msg_stat(mode: str, chat_ids: list, groups: list):
 
 if __name__ == "__main__":
     get_group_stat("count", "1001186169699")
-    # get_personal_stat("length", "-1001566274537", 20)
-    # get_personal_stat("count", "-1001566274537", 20)
+    # get_personal_stat("length", "1001186169699", 20)
+    get_personal_stat("count", "1001186169699", 20)
     # get_avg_msg_stat("length", study_dialogs + flud_dialogs, ["M3138", "M3139"])

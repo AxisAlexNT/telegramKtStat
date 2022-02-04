@@ -2,7 +2,7 @@ import datetime
 import json
 import os
 import Levenshtein
-from telethon import TelegramClient
+from telethon import TelegramClient, sync
 from transliterate import translit
 
 api_id = 18442708
@@ -65,14 +65,16 @@ def getNames():
                 "messages": data.get(student_id, {}).copy()
             }
             continue
-        student.first_name = translit(student.first_name.split()[0], 'ru').capitalize()
-        student.last_name = translit(student.last_name.split()[0], 'ru').capitalize()
+        first_name = translit(student.first_name.split()[0], 'ru').capitalize()
+        last_name = translit(student.last_name.split()[0], 'ru').capitalize()
         if student.username in bad_students.keys():
-            student.first_name = bad_students[student.username]["first_name"]
-            student.last_name = bad_students[student.username]["last_name"]
+            first_name = bad_students[student.username]["first_name"]
+            last_name = bad_students[student.username]["last_name"]
         for student_name in group_data.keys():
-            if (Levenshtein.distance(student.first_name, student_name.split()[1]) <= 2 and
-                    Levenshtein.distance(student.last_name, student_name.split()[0]) <= 2):
+            if student.username == "kilagen":
+                student_name = "Захаров Кирилл Сергеевич"
+            if (Levenshtein.distance(first_name, student_name.split()[1]) <= 2 and
+                    Levenshtein.distance(last_name, student_name.split()[0]) <= 2):
                 group = group_data[student_name]
                 new_data[str(student.id)] = {
                     "first_name": student_name.split()[1],
@@ -84,13 +86,14 @@ def getNames():
                 }
                 break
         else:
+            print("Undefined:", student.first_name, student.last_name, "tag:", student.username)
             new_data[str(student.id)] = {
                 "first_name": student.first_name,
                 "last_name": student.last_name,
                 "full_name": student.last_name + " " + student.first_name,
                 "username": student.username,
                 "group": "others",
-                "messages": data.get(str(student.id), {}).copy()
+                "messages": data.get(student_id, {}).copy()
             }
     with open("data.json", "w") as data_file:
         json.dump(new_data, data_file, ensure_ascii=False, indent=4)
